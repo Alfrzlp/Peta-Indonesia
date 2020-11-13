@@ -19,8 +19,22 @@ library(ggplot2)
 indonesia = fortify(indo, region = "NAME_2")
 head(indonesia)
 
+#tambah data provinsi
+library(dplyr)
+indonesia = left_join(indonesia, indo@data, by=c("id" = "NAME_2"))
+head(indonesia)
+
 #Plot
 #white warna garis batas provinsi
 ggplot(indonesia) +
+  geom_polygon(aes(x = long, y = lat, fill = id, group=group), color="white") +
+  theme(legend.position = "none") #hapus legenda
+
+
+#Ambil jawa timur
+jatim = indonesia %>% filter(NAME_1 == "Jawa Timur")
+head(jatim)
+
+ggplot(jatim) +
   geom_polygon(aes(x = long, y = lat, fill = id, group=group), color="white") +
   theme(legend.position = "none") #hapus legenda
